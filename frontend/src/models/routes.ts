@@ -1,7 +1,8 @@
 interface Route {
-    routeName:string
-    path:string,
-    id:string,
-    component:React.ReactNode
+  routeName: string;
+  path: string;
+  id: string;
+  isNavigation: boolean;
+  component: React.ReactNode;
 }
-export default Route
+export default Route;

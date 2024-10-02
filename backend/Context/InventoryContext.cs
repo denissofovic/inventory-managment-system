@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class InventoryContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public InventoryContext(DbContextOptions<InventoryContext> options) : base(options)
         {
         }
         public DbSet<InventoryItemEntity> InventoryItems { get; set; }

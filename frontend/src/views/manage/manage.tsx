@@ -1,6 +1,8 @@
-const Manage=()=>{
+import InventoryItemForm from "../../components/create-edit-form/inventoryItemForm";
+const Manage = () => {
+  return <>
+  <InventoryItemForm item={undefined}></InventoryItemForm>
+  </>;
+};
 
-    return <>Manage</>
-}
-
-export default Manage
+export default Manage;

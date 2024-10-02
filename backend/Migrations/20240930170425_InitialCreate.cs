@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,13 +17,13 @@ namespace backend.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmployeeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EquipmentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Warranty = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Warranty = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Manufactor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InventoryNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InventoryNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

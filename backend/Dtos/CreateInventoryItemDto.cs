@@ -4,11 +4,11 @@ namespace backend.Dtos
 {
     public class CreateInventoryItemDto
     {
-        public long id { get; set; }
-        public string EmployeeName { get; set; }
+        public long? Id { get; set; }
+        public string? EmployeeName { get; set; } = "";
         
         public string EquipmentType { get; set; }
-        
+
         public string Model { get; set; }
 
         
@@ -17,9 +17,9 @@ namespace backend.Dtos
         
         public string Manufactor { get; set; }
 
-        
+
         public string SerialNumber { get; set; }
 
-        public string InventoryNumber { get; set; }
+        public string? InventoryNumber { get; set; } = "";
     }
 }

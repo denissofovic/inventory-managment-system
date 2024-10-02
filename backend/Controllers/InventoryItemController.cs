@@ -11,9 +11,9 @@ namespace backend.Controllers
     [ApiController]
     public class InventoryItemController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly InventoryContext _context;
 
-        public InventoryItemController(ApplicationDbContext context)
+        public InventoryItemController(InventoryContext context)
         {
             _context = context;
         }
@@ -28,6 +28,7 @@ namespace backend.Controllers
 
         [HttpGet]
         [Route("id")]
+        [Route("ment")]
         public async Task<ActionResult<InventoryItemEntity>> GetInventoryItemByID([FromRoute] long id)
         {
             var inventoryItem = await _context.InventoryItems.FirstOrDefaultAsync(q => q.id == id);
@@ -41,6 +42,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateInventoryItem([FromBody] CreateInventoryItemDto dto)
         {
+            Console.WriteLine(dto);
             var newInventoryItem = new InventoryItemEntity()
             {
                
@@ -51,6 +53,7 @@ namespace backend.Controllers
                 Warranty = dto.Warranty,
                 SerialNumber = dto.SerialNumber,
                 InventoryNumber = dto.InventoryNumber,
+                
             }; 
             
             await _context.InventoryItems.AddAsync(newInventoryItem);
@@ -59,6 +62,45 @@ namespace backend.Controllers
             return Ok("Inventory item Saved Successfully");
         }
 
-        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateInventoryItem([FromRoute] long id, [FromBody] CreateInventoryItemDto dto)
+        {
+            var existingItem = await _context.InventoryItems.FirstOrDefaultAsync(q => q.id == id);
+            if (existingItem == null)
+            {
+                return NotFound("Inventory item not found");
+            }
+
+            // Update properties
+            existingItem.EmployeeName = dto.EmployeeName;
+            existingItem.EquipmentType = dto.EquipmentType;
+            existingItem.Manufactor = dto.Manufactor;
+            existingItem.Model = dto.Model;
+            existingItem.Warranty = dto.Warranty;
+            existingItem.SerialNumber = dto.SerialNumber;
+            existingItem.InventoryNumber = dto.InventoryNumber;
+            existingItem.UpdatedAt = DateTime.Now;
+
+            // Save changes
+            await _context.SaveChangesAsync();
+            return Ok("Inventory item updated successfully");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteInventoryItem([FromRoute] long id)
+        {
+            var existingItem = await _context.InventoryItems.FirstOrDefaultAsync(q => q.id == id);
+            if (existingItem == null)
+            {
+                return NotFound("Inventory item not found");
+            }
+
+            _context.InventoryItems.Remove(existingItem);
+            await _context.SaveChangesAsync();
+
+            return Ok("Inventory item deleted");
+
+
+        }
     }
 }
