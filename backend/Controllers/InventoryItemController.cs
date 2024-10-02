@@ -27,8 +27,8 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        [Route("id")]
-        [Route("ment")]
+        [Route("{id}")]
+        
         public async Task<ActionResult<InventoryItemEntity>> GetInventoryItemByID([FromRoute] long id)
         {
             var inventoryItem = await _context.InventoryItems.FirstOrDefaultAsync(q => q.id == id);

@@ -26,6 +26,9 @@ i18n
           "requiredFieldsMessage": "Required fields can't be empty",
           "employeeName": "Employee Name",
           "equipmentType": "Equipment Type",
+          "itemCreated":"Inventory item created successfully",
+          "itemUpdated":"Inventory item updated successfully",
+          "itemDeleteError":"Item not found. It might be already deleted"
         },
       },
       de: {
@@ -49,6 +52,10 @@ i18n
           "requiredFieldsMessage": "Pflichtfelder dürfen nicht leer sein",
           "employeeName": "Mitarbeitername",
           "equipmentType": "Gerätetyp",
+          "itemCreated": "Inventarartikel erfolgreich erstellt", 
+          "itemUpdated": "Inventarartikel erfolgreich aktualisiert",
+          "itemDeleteError": "Artikel nicht gefunden. Er könnte bereits gelöscht worden sein."
+          
         },
       },
     },

@@ -76,12 +76,16 @@ const {t}=useTranslation()
 
     if (!hasErrors) {
       const success = props.item
-        ? await editInventoryItem(item)
+        ? (await editInventoryItem(item))
         : await createInventoryItem(item);
+      
+
 
       if (success&&props.onUpdateSuccess) {
         props.onUpdateSuccess()
-      } else {
+        alert(t("itemUpdated"))
+      } else if(success) {
+        alert(t("itemCreated"))
          setItem({
           id: '0',
           employeeName: "",
@@ -93,8 +97,9 @@ const {t}=useTranslation()
           inventoryNumber: "",
         });
       }
+      
     } else {
-      alert("Required fields can't be empty")
+      alert(t("requiredFieldsMessage"))
     
     }
   };

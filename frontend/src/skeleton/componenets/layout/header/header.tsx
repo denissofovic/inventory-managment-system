@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import i18n from "../../../../i18n";
 import { useTranslation } from "react-i18next";
+import styles from "./headerStyles";
+
 
 
 const languageOptions: { label: string; code: string }[] = [
@@ -44,44 +46,39 @@ const Header = () => {
   };
 
   return (
-    <Container maxWidth={false} sx={{display:'flex',background: "orange", justifyContent:'space-between',margin:0,padding:0}}>
+    <Container maxWidth={false} sx={{...styles.headerContainer}}>
     <Box  
       sx={{
         display: "flex",
         height: "50px",
-        background: "orange",
+        background: "#f5870d",
         flexDirection: "row",
       }}
     >
       <Box
-        sx={{
-          width: "50px",
-          margin: "5px",
-          fontSize: "32px",
-          color: "white",
-          paddingLeft: "20px",
-          marginRight: "100px",
-        }}
+        sx={{...styles.logoWrapper}}
       >
-        dccs
+        <div>
+        <img src="/assets/dccs.png" style={{height:'40px'}} ></img>
+        </div>
       </Box >
       {RoutesData.map(
         (route) =>
           route.isNavigation && (
             <Box
               key={route.id}
-              sx={{ margin: "0 10px", textAlign: "center", cursor: "pointer" }}
+              sx={{...styles.navigation}}
               onClick={() => {
                 navigate(route.path);
               }}
             >
               {activeLink === route.id ? (
-                <Box sx={{ height: "5px", background: "white" }} />
+                <Box sx={{...styles.activeLink}} />
               ) : (
-                <Box sx={{ height: "5px" }} />
+                <Box sx={{ ...styles.inActiveLink }} />
               )}
               <Box
-                sx={{ background: "orange", padding: "5px", color: "white" }}
+                sx={{...styles.routeNameWrapper}}
               >
                 {" "}
               
@@ -96,8 +93,8 @@ const Header = () => {
 
 
     </Box>
-   <div style={{display:'flex',alignItems:'center',color:'white'}}>
-    Languages:
+   <div style={{...styles.languageWrapper}}>
+    {t("languages")}
     <select
           value={selectedLanguage}
           onChange={handleLanguageChange}
