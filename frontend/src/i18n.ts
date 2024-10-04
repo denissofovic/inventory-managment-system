@@ -28,7 +28,9 @@ i18n
           "equipmentType": "Equipment Type",
           "itemCreated":"Inventory item created successfully",
           "itemUpdated":"Inventory item updated successfully",
-          "itemDeleteError":"Item not found. It might be already deleted"
+          "itemDeleteError":"Item not found. It might be already deleted",
+          "actions":"Actions",
+          "filter":"Filters"
         },
       },
       de: {
@@ -54,7 +56,9 @@ i18n
           "equipmentType": "Gerätetyp",
           "itemCreated": "Inventarartikel erfolgreich erstellt", 
           "itemUpdated": "Inventarartikel erfolgreich aktualisiert",
-          "itemDeleteError": "Artikel nicht gefunden. Er könnte bereits gelöscht worden sein."
+          "itemDeleteError": "Artikel nicht gefunden. Er könnte bereits gelöscht worden sein.",
+          "actions":"Aktionen",
+          "filter":"Filter"
           
         },
       },

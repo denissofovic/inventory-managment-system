@@ -1,5 +1,4 @@
 import {
-  
   Table,
   TableBody,
   TableCell,
@@ -7,6 +6,7 @@ import {
   TableRow,
 } from "@mui/material";
 import Columns from "../../models/genericColumns";
+import styles from "./tableStyles";
 
 interface TableProps<T> {
   data: T[];
@@ -15,17 +15,13 @@ interface TableProps<T> {
 
 function GenericTable<T>(props: TableProps<T>) {
   return (
-    <>
-      <Table sx={{borderSpacing:'0 10px',borderCollapse:'separate'}}>
-        <TableHead sx={{background:'#fff',borderRadius:'4px',boxShadow:'0px 3px 6px rgba(0, 0, 0, 0.16)'}}>
+    <div style={{ overflowX: "auto" }}>
+      <Table sx={{ ...styles.table }}>
+        <TableHead sx={{ ...styles.tableHead }}>
           <TableRow>
             {props.config.map((column, key) => {
               return (
-                <TableCell
-                  sx={{ padding: 0, margin: "5px", fontWeight: "bold" }}
-                  align="center"
-                  key={key}
-                >
+                <TableCell sx={{ ...styles.headCell }} align="center" key={key}>
                   {column.getHeader()}
                 </TableCell>
               );
@@ -40,7 +36,7 @@ function GenericTable<T>(props: TableProps<T>) {
                 {props.config.map((column, key) => {
                   return (
                     <TableCell
-                      sx={{ padding: 0, margin: "5px" }}
+                      sx={{ ...styles.bodyCell }}
                       align="center"
                       key={key + "2"}
                     >
@@ -53,7 +49,9 @@ function GenericTable<T>(props: TableProps<T>) {
           })}
         </TableBody>
       </Table>
-    </>
+
+      
+    </div>
   );
 }
 

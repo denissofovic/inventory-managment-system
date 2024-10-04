@@ -20,7 +20,7 @@ const DeleteItem=()=>{
                 console.log('response')
                 if (response.status !== 200) {
                     setItemExists(false);
-                    redirect('/notFound')
+                    
                 }
             } catch (error) {
                 setItemExists(false);
@@ -34,11 +34,11 @@ const DeleteItem=()=>{
     const handleDeleteButtonClick = async () => {
         try {
             await axiosInstance.delete(`/api/inventoryItem/${id}`);
-            redirect('/dashboard');
+            redirect('/dashboard',{replace:true});
         } catch (error:any) {
             console.error("Error deleting the item:", error.response ? error.response.data : error.message);
             alert(t("itemDeleteError"));
-            redirect('/dashboard')
+            redirect('/dashboard',{replace:true})
         }
     };
     const handleBackBtnClick=()=>{
@@ -48,9 +48,9 @@ const DeleteItem=()=>{
         <h2> {t("deleteItem")}</h2>
         <h4> {t("deleteQuestion")}</h4>
 
-        <div><Button onClick={handleDeleteButtonClick}>{t("deleteYes")}</Button>
+        <div><Button disabled={!itemExists} variant="contained" onClick={handleDeleteButtonClick}>{t("deleteYes")}</Button>
 
-        <Button onClick={handleBackBtnClick}>{t("deleteBack")}</Button>
+        <Button variant="contained" sx={{margin:'10px'}} color="secondary" onClick={handleBackBtnClick}>{t("deleteBack")}</Button>
         </div>
         
         
