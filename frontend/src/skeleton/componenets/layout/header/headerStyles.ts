@@ -3,7 +3,7 @@ const styles={
     logoWrapper:{
         width: "50px",
         margin: "5px",
-        fontSize: "32px",
+        
         color: "white",
         paddingLeft: "20px",
         marginRight: "100px",

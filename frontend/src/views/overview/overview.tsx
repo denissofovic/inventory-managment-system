@@ -7,35 +7,20 @@ import GenericTable from "../../components/generic-table/genericTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
-import { Dialog } from "@mui/material";
+import { Dialog, useMediaQuery } from "@mui/material";
 import InventoryItemForm from "../../components/create-edit-form/inventoryItemForm";
 import sortItems from "../../utils/sortItems";
 import SortConfig from "../../models/sortConfig";
 import { useTranslation } from "react-i18next";
-
-const initialEquipmentType = [
-  "",
-  "Laptop",
-  "Docking station",
-  "Monitor",
-  "Keyboard",
-  "Mouse",
-  "Headset",
-  "Memory",
-  "Others",
-];
-
-const initialEmployeeNames = [
-  "",
-  "Edin",
-  "Denis",
-  "John Doe",
-  "Jennie Doe",
-  "Damir",
-];
+import styles from "./overviewStyles";
+import {
+  initialEmployeeNames,
+  initialEquipmentType,
+} from "../../providers/data";
+import Cards from "../../components/inventory-cards/cards";
 
 const Overview = () => {
-  const {t}=useTranslation()
+  const { t } = useTranslation();
   const [inventoryItems, setInventoryItems] = useState<IInventoryItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<IInventoryItem[]>([]);
   const [selectedEmployeeName, setSelectedEmployeeName] = useState<string>("");
@@ -43,11 +28,9 @@ const Overview = () => {
     useState<string>("");
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<IInventoryItem | null>(null);
-
-  const [sortConfig, setSortConfig] = useState<SortConfig|null|undefined>();
-
-
+  const [sortConfig, setSortConfig] = useState<SortConfig | null | undefined>();
   const redirect = useNavigate();
+  const isMatch = useMediaQuery("(min-width:650px)");
 
   useEffect(() => {
     fetchInventoryItems((items) => {
@@ -56,18 +39,20 @@ const Overview = () => {
     });
   }, [selectedItem]);
 
-  const handleSort=(key:keyof IInventoryItem)=>{
-    
-    if (sortConfig&&sortConfig.key === key) {
-      const updatedSortConfig:SortConfig={ order: sortConfig.order === "Asc"?"Desc":"Asc", key }
+  const handleSort = (key: keyof IInventoryItem) => {
+    if (sortConfig && sortConfig.key === key) {
+      const updatedSortConfig: SortConfig = {
+        order: sortConfig.order === "Asc" ? "Desc" : "Asc",
+        key,
+      };
       setSortConfig(updatedSortConfig);
       setFilteredItems(sortItems(updatedSortConfig, filteredItems));
     } else {
-      const updatedSortConfig:SortConfig={ order: "Asc", key: key }
-      setSortConfig({ order: "Asc",  key });
+      const updatedSortConfig: SortConfig = { order: "Asc", key: key };
+      setSortConfig({ order: "Asc", key });
       setFilteredItems(sortItems(updatedSortConfig, filteredItems));
     }
-  }
+  };
 
   const closeModal = () => {
     setModalOpen(false);
@@ -107,15 +92,15 @@ const Overview = () => {
   const config: Columns<IInventoryItem>[] = [
     {
       getHeader: () => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            minWidth: "100px",
-          }}
-        >
-          <div style={{cursor:'pointer'}} onClick={()=>{handleSort("employeeName")}}>{t("name")}</div>
+        <div style={{ ...styles.selectDivWrapper }}>
+          <span
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("employeeName");
+            }}
+          >
+            {t("name")}
+          </span>
           <select
             name="employeeName"
             style={{ minWidth: "70%" }}
@@ -133,19 +118,25 @@ const Overview = () => {
       getValue: (object: IInventoryItem) => {
         return <span>{object.employeeName}</span>;
       },
+      getName: () => t("name"),
+      filter: {
+        callback: handleSelectChange,
+        values: initialEmployeeNames,
+        selectName: "employeeName",
+      },
+      sort: () => handleSort("employeeName"),
     },
     {
       getHeader: () => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            minWidth: "100px",
-          }}
-        >
-          <div style={{cursor:'pointer'}} onClick={()=>{
-            handleSort("equipmentType")}}>{t("type")}</div>
+        <div style={{ ...styles.selectDivWrapper }}>
+          <span
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("equipmentType");
+            }}
+          >
+            {t("type")}
+          </span>
           <select
             name="equipmentType"
             style={{ minWidth: "70%" }}
@@ -161,54 +152,76 @@ const Overview = () => {
         </div>
       ),
       getValue: (object: IInventoryItem) => {
-        return <div>{object.equipmentType}</div>;
+        return <span>{object.equipmentType}</span>;
       },
+      getName: () => t("type"),
+
+      filter: {
+        callback: handleSelectChange,
+        values: initialEquipmentType,
+        selectName: "equipmentType",
+      },
+      sort: () => handleSort("equipmentType"),
     },
     {
       getHeader: () => {
         return (
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={()=>{handleSort("manufactor")}}
+          <span
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("manufactor");
+            }}
           >
             {t("manufactor")}
-          </div>
+          </span>
         );
       },
       getValue: (object: IInventoryItem) => object.manufactor,
+      getName: () => t("manufactor"),
+      sort: () => handleSort("manufactor"),
     },
     {
-      getHeader:() => {
+      getHeader: () => {
         return (
-          <div
-            style={{ cursor: "pointer" }}
-            onClick={()=>{handleSort("model")}}
+          <span
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("model");
+            }}
           >
             {t("model")}
-          </div>
+          </span>
         );
       },
       getValue: (object: IInventoryItem) => object.model,
+      getName: () => t("model"),
+      sort: () => handleSort("model"),
     },
     {
       getHeader: () => {
         return (
           <div
-            style={{ cursor: "pointer" }}
-            onClick={()=>{handleSort("serialNumber")}}
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("serialNumber");
+            }}
           >
-              {t("serialNumber")}
+            {t("serialNumber")}
           </div>
         );
       },
       getValue: (object: IInventoryItem) => object.serialNumber,
+      getName: () => t("serialNumber"),
+      sort: () => handleSort("serialNumber"),
     },
     {
       getHeader: () => {
         return (
           <div
-            style={{ cursor: "pointer" }}
-            onClick={()=>{handleSort("warranty")}}
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("warranty");
+            }}
           >
             {t("warranty")}
           </div>
@@ -216,24 +229,30 @@ const Overview = () => {
       },
       getValue: (object: IInventoryItem) =>
         dayjs(object.warranty).format("MM/YYYY"),
+      getName: () => t("warranty"),
+      sort: () => handleSort("warranty"),
     },
     {
       getHeader: () => {
         return (
           <div
-            style={{ cursor: "pointer" }}
-            onClick={()=>{handleSort("inventoryNumber")}}
+            style={{ ...styles.headerName }}
+            onClick={() => {
+              handleSort("inventoryNumber");
+            }}
           >
-             {t("inventoryNumber")}
+            {t("inventoryNumber")}
           </div>
         );
       },
       getValue: (object: IInventoryItem) => object.inventoryNumber,
+      getName: () => t("inventoryNumber"),
+      sort: () => handleSort("inventoryNumber"),
     },
     {
       getHeader: () => "           ",
       getValue: (object: IInventoryItem) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ ...styles.actionsWrapper }}>
           <EditIcon
             sx={{ cursor: "pointer" }}
             onClick={() => {
@@ -249,23 +268,25 @@ const Overview = () => {
           ></DeleteIcon>
         </div>
       ),
+      getName: () => t("actions"),
     },
   ];
 
   return (
-    <div style={{ padding: "10px" }}>
-      <GenericTable data={filteredItems} config={config}></GenericTable>
+    <div style={{ ...styles.contentWrapper }}>
+      {isMatch ? (
+        <GenericTable data={filteredItems} config={config}></GenericTable>
+      ) : (
+        <Cards data={filteredItems} config={config}></Cards>
+      )}
 
       <Dialog open={isModalOpen} onClose={closeModal} fullWidth>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <button
-            style={{ width: "50px", margin: "5px", alignSelf: "flex-End" }}
-            onClick={closeModal}
-          >
+        <div style={{ ...styles.dialogContentWrapper }}>
+          <button style={{ ...styles.dialogCloseButton }} onClick={closeModal}>
             {" "}
             X
           </button>
-          <div style={{ padding: "20px 50px" }}>
+          <div style={{ ...styles.dialogFormWrapper }}>
             <InventoryItemForm
               item={selectedItem}
               onUpdateSuccess={closeModal}
