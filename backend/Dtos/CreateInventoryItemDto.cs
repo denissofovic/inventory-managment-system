@@ -23,3 +23,4 @@ namespace backend.Dtos
         public string? InventoryNumber { get; set; } = "";
     }
 }
+

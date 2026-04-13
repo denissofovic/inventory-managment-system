@@ -5,7 +5,7 @@ namespace backend.Entities
     public class InventoryItemEntity
     {
         [Key]
-        public long id { get; set; }
+        public int id { get; set; }
 
         public string? EmployeeName { get; set; }
       
