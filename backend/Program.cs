@@ -58,4 +58,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<InventoryContext>();
+    db.Database.EnsureCreated();
+}
+
 app.Run();
