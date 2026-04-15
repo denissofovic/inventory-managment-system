@@ -6,8 +6,6 @@ COPY package*.json ./
 
 RUN npm install
 
-ENV BACKEND_URL=http://backend:8080/api/inventoryitem
-
-EXPOSE 3000
+EXPOSE 5050
 
 CMD ["sh", "-c", "npm install && npm start"]

@@ -21,7 +21,6 @@ docker run --name backend \
 
 docker run -it \
     -v "$(realpath ../frontend)":/app \
-    -e BACKEND_URL=http://backend:8080 \
     -e CHOKIDAR_USEPOLLING=true \
     --name frontend \
     --network denis \
